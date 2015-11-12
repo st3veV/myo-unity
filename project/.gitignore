@@ -4,6 +4,7 @@
 *.csproj
 *.unityproj
 *.sln
+*.suo
 project.userprefs
 /Assets/Myo/Scripts/Myo.NET
 /Assets/Myo/Scripts/Myo.NET.meta
