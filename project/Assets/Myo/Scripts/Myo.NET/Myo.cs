@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Thalmic.Myo
 {
-    public class Myo
+    public class Myo:IMyo
     {
         private readonly Hub _hub;
         private IntPtr _handle;

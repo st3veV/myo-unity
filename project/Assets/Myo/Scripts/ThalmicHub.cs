@@ -5,7 +5,8 @@ using UnityEditor;
 #endif
 
 using System.Collections.Generic;
-
+using Thalmic.Myo;
+using Thalmic.Myo.MyoAndroid;
 using LockingPolicy = Thalmic.Myo.LockingPolicy;
 
 // Allows access to one or more Myo armbands, which must be immediate children of the GameObject this script is attached
@@ -49,14 +50,6 @@ public class ThalmicHub : MonoBehaviour
             }
         }
 #if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        var unityActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
-
-        // The Hub needs to be initialized on the Android UI thread.
-        unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => {
-            createHub();
-        }));
-        return true; // Return true assuming the hub constructor will succeed. Debug.Log if it fails.
 #else
         return createHub();
 #endif
@@ -100,20 +93,20 @@ public class ThalmicHub : MonoBehaviour
         }
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-        AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        var unityActivity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
-        var applicationContext = unityActivity.Call<AndroidJavaObject>("getApplicationContext");
-
-        // Need to pass the Android Application Context to the Myo Android plugin before initializing the Hub.
-        AndroidJavaClass nativeEventsClass = new AndroidJavaClass("com.thalmic.myo.NativeEvents");
-        nativeEventsClass.CallStatic("setApplicationContext", applicationContext);
-
-        // The Hub needs to be initialized on the Android UI thread.
-        unityActivity.Call("runOnUiThread", new AndroidJavaRunnable(() => {
-            createHub ();
-        }));
+        createAndroidListener();
 #else
-        createHub ();
+        createHub();
+#endif
+    }
+
+    private void createAndroidListener()
+    {
+        GameObject androidListener = new GameObject("MyoAndroidListener");
+        AndroidMyo androidMyo = androidListener.AddComponent<AndroidMyo>();
+#if DEBUG
+        androidMyo.Init(true);
+#else
+        androidMyo.Init(false);
 #endif
     }
 

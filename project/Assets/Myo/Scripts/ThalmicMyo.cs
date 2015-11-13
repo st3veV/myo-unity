@@ -138,7 +138,7 @@ public class ThalmicMyo : MonoBehaviour {
         }
     }
 
-    public Thalmic.Myo.Myo internalMyo {
+    public Thalmic.Myo.IMyo internalMyo {
         get { return _myo; }
         set {
             if (_myo != null) {
@@ -176,5 +176,5 @@ public class ThalmicMyo : MonoBehaviour {
     private Pose _myoPose = Pose.Unknown;
     private bool _myoUnlocked = false;
 
-    private Thalmic.Myo.Myo _myo;
+    private Thalmic.Myo.IMyo _myo;
 }
