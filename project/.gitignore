@@ -6,7 +6,3 @@
 *.sln
 *.suo
 project.userprefs
-/Assets/Myo/Scripts/Myo.NET
-/Assets/Myo/Scripts/Myo.NET.meta
-/Assets/Plugins
-/Assets/Plugins.meta
