@@ -23,22 +23,22 @@ namespace Thalmic.Myo.MyoAndroid
         #region Implemented Methods
         public void Vibrate(VibrationType type)
         {
-            throw new NotImplementedException();
+            Handler.Call("myoVibrate", type.ToString());
         }
 
         public void Unlock(UnlockType type)
         {
-            throw new NotImplementedException();
+            Handler.Call("myoUnlock", type.ToString());
         }
 
         public void Lock()
         {
-            throw new NotImplementedException();
+            Handler.Call("myoLock");
         }
 
         public void NotifyUserAction()
         {
-            throw new NotImplementedException();
+            Handler.Call("myoNotifyUserAction");
         }
         #endregion
 
