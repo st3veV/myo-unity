@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 // Draw simple instructions for sample scene.
 // Check to see if a Myo armband is paired.
@@ -50,5 +51,11 @@ public class SampleSceneGUI : MonoBehaviour
         if (Input.GetKeyDown ("q")) {
             hub.ResetHub();
         }
+    }
+
+    IEnumerator Start()
+    {
+        yield return new WaitForSeconds(5);
+        ThalmicHub.instance.Init();
     }
 }

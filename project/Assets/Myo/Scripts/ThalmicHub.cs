@@ -50,6 +50,7 @@ public class ThalmicHub : MonoBehaviour
             }
         }
 #if UNITY_ANDROID && !UNITY_EDITOR
+        return true;
 #else
         return createHub();
 #endif
@@ -92,17 +93,40 @@ public class ThalmicHub : MonoBehaviour
 #endif
         }
 
-#if UNITY_ANDROID && !UNITY_EDITOR
-        createAndroidListener();
-#else
+#if !UNITY_ANDROID || UNITY_EDITOR
         createHub();
 #endif
     }
+    
+    public void Init()
+    {
+#if UNITY_ANDROID && !UNITY_EDITOR
+        createAndroidListener();
+#endif
+    }
+
+    private GameObject _androidListener;
 
     private void createAndroidListener()
     {
-        GameObject androidListener = new GameObject("MyoAndroidListener");
-        AndroidMyo androidMyo = androidListener.AddComponent<AndroidMyo>();
+        _androidListener = new GameObject("MyoAndroidListener");
+        
+        var androidMyoConnector = _androidListener.AddComponent<AndroidMyoConnector>();
+        androidMyoConnector.Init(applicationIdentifier,
+#if DEBUG 
+        true
+#else
+        false
+#endif
+        );
+        androidMyoConnector.MyoConnected += AndroidMyoConnector_MyoConnected;
+        androidMyoConnector.ShowScanActivity();
+    }
+
+    private void AndroidMyoConnector_MyoConnected(object sender, MyoEventArgs e)
+    {
+        var androidMyo = _androidListener.AddComponent<AndroidMyo>();
+        _myos[0].internalMyo = androidMyo;
 #if DEBUG
         androidMyo.Init(true);
 #else
@@ -113,7 +137,6 @@ public class ThalmicHub : MonoBehaviour
     private bool createHub () {
         try {
             _hub = new Thalmic.Myo.Hub (applicationIdentifier, hub_MyoPaired);
-
             _hub.SetLockingPolicy (lockingPolicy);
         } catch (System.Exception) {
             Debug.Log ("ThalmicHub failed to initialize.");

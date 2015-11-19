@@ -135,7 +135,7 @@ namespace Thalmic.Myo.MyoAndroid
             Sync(_currentArm, direction);
         }
         
-        public void MyoDisconnected()
+        public void MyoDisconnected(string obj)
         {
             OnDisconnected(new MyoEventArgs(this, GetTimestamp()));
         }
