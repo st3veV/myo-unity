@@ -165,7 +165,7 @@ namespace Thalmic.Myo.MyoAndroid
             {
                 if (_handlerJavaObject == null)
                 {
-                    AndroidJavaClass jc = new AndroidJavaClass("eu.stepanvyterna.games.utils.myo.myolibrary.MyoNativeHandler");
+                    AndroidJavaClass jc = new AndroidJavaClass("com.thalmic.myo.unity.MyoNativeHandler");
                     _handlerJavaObject = jc.CallStatic<AndroidJavaObject>("instance");
                     Debug.Log("got instance");
                 }
